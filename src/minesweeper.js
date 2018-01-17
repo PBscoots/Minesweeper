@@ -10,8 +10,7 @@ let board = [[' ',' ',' '],
              [' ',' ',' ']];
 
 
-console.log(printBoard(board));
+printBoard(board);
 board[0][1] = '1';
 board[2][2] = 'B';
-
-console.log(printBoard(board));
+printBoard(board);
