@@ -22,7 +22,7 @@ const generateBombBoard = (numberOfRows, numberOfColumns, numberOfBombs) => {
     }
     board.push(row);
   }
-  var numberOfBombsPlaced = 0;
+  let numberOfBombsPlaced = 0;
   var count = 0;//to look and see how many times it has to try again to place a bomb
   while (numberOfBombsPlaced < numberOfBombs) {
     //will use control flow to fix the possiblity to choose the same spot twice
@@ -44,7 +44,7 @@ const printBoard = board => {
 }
 
 let playerBoard = generatePlayerBoard(3,4);
-let bombBoard   = generateBombBoard(30,30,50);
+let bombBoard   = generateBombBoard(30,30,899);
 console.log('Player Board:');
 printBoard(playerBoard);
 console.log('Bomb Board: ');
