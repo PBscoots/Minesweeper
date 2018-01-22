@@ -11,30 +11,23 @@ const generatePlayerBoard = (numberOfRows, numberOfColumns) => {
     board.push(row);
   }
   return board;
+
 }
 
-const generateBombBoard = (numberOfRows, numberOfColumns, numberOfBombs) => {
-  var board = [];
-  for (var i = 0; i < numberOfRows; i++) {
-    var row = [];
-    for (var j = 0; j < numberOfColumns;j++) {
-      row.push(null);
-    }
-    board.push(row);
-  }
+const generateBombBoard = (board, numberOfBombs) => {
   let numberOfBombsPlaced = 0;
   var count = 0;//to look and see how many times it has to try again to place a bomb
   while (numberOfBombsPlaced < numberOfBombs) {
     //will use control flow to fix the possiblity to choose the same spot twice
-    var randomRowIndex  = Math.floor(Math.random()*numberOfRows);
-    var randomColumnIndex  = Math.floor(Math.random()*numberOfColumns);
+    var randomRowIndex  = Math.floor(Math.random()*board.length);
+    var randomColumnIndex  = Math.floor(Math.random()*board[0].length);
     if (board[randomRowIndex][randomColumnIndex]  != 'B') {
       numberOfBombsPlaced++;
       board[randomRowIndex][randomColumnIndex]  = 'B';
     }
     count++;
   }
-  console.log(count);
+  console.log('Times tried ' + count);
   return board;
 }
 
@@ -57,11 +50,11 @@ const getNumberOfNeighborBombs = (bombBoard, rowIndex, columnIndex) => {
 
 const flipTile = (playerBoard, bombBoard, rowIndex, columnIndex) => {
   if (playerBoard[rowIndex][columnIndex] !== ' ') {
-    console.log('This tile is already flipped dipshit');
+    console.log('This tile is already flipped');
     return;
   } else if (bombBoard[rowIndex][columnIndex] === 'B') {
     playerBoard[rowIndex][columnIndex] = 'B';
-    return;
+
   } else {
     playerBoard[rowIndex][columnIndex] = getNumberOfNeighborBombs(bombBoard, rowIndex, columnIndex);
   }
@@ -72,12 +65,17 @@ const printBoard = board => {
 }
 
 let playerBoard = generatePlayerBoard(3,3);
-let bombBoard   = generateBombBoard(3,3,3);
+let bombBoard   = generateBombBoard(playerBoard,3);
+
 console.log('Player Board:');
 printBoard(playerBoard);
+
 console.log('Bomb Board: ');
 printBoard(bombBoard);
 
+flipTile(playerBoard, bombBoard, 2,1);
+flipTile(playerBoard, bombBoard, 2,2);
+flipTile(playerBoard, bombBoard, 1,1);
 flipTile(playerBoard, bombBoard, 0,0);
 console.log('Updated Player Board');
 printBoard(playerBoard);
