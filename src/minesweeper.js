@@ -11,11 +11,11 @@ class Game {
     if (this._board._playerBoard[rowIndex][columnIndex] === 'B') {
       console.log('GAME OVER');
       this._board.print();
-    } else if (!this._board.hasSafeTiles()) {
-      console.log('You won!');
+    } else if (this._board.hasSafeTiles()) {
+      console.log('Current Board:');
       this._board.print();
     } else {
-      console.log('Current Board:');
+      console.log('You Win!');
       this._board.print();
     }
   }
@@ -101,7 +101,7 @@ class Board {
   }
 }
 
-const g = new Game(9,9,15);
+const g = new Game(2,2,1);
 
 for (var i = 0; i < g._board._playerBoard.length; i++) {
   for (var j = 0; j < g._board._playerBoard[0].length; j++) {
