@@ -11,11 +11,12 @@ class Game {
     if (this._board._playerBoard[rowIndex][columnIndex] === 'B') {
       console.log('GAME OVER');
       this._board.print();
-    } else if (this._board._numberOfBombs === this._board._numberOfTiles) {
+    } else if (!this._board.hasSafeTiles()) {
       console.log('You won!');
+      this._board.print();
     } else {
       console.log('Current Board:');
-      console.log(this._board.print());
+      this._board.print();
     }
   }
 }
@@ -27,6 +28,36 @@ class Board {
     this._playerBoard = Board.generatePlayerBoard(numberOfRows,numberOfColumns);
     this._bombBoard= Board.generateBombBoard(numberOfRows, numberOfColumns, numberOfBombs);
   }
+
+  static generatePlayerBoard(numberOfRows, numberOfColumns){
+    var board = [];
+    for (var i = 0; i < numberOfRows; i++) {
+      var row = [];
+      for (var j = 0; j < numberOfColumns;j++) {
+        row.push(' ');
+      }
+      board.push(row);
+    }
+    return board;
+  };
+
+  static generateBombBoard(numberOfRows, numberOfColumns, numberOfBombs){
+    let board = this.generatePlayerBoard(numberOfRows, numberOfColumns);
+    let numberOfBombsPlaced = 0;
+    var count = 0;//to look and see how many times it has to try again to place a bomb
+    while (numberOfBombsPlaced < numberOfBombs) {
+      var randomRowIndex  = Math.floor(Math.random()*board.length);
+      var randomColumnIndex  = Math.floor(Math.random()*board[0].length);
+      if (board[randomRowIndex][randomColumnIndex]  != 'B') {
+        numberOfBombsPlaced++;
+        board[randomRowIndex][randomColumnIndex]  = 'B';
+      }
+      count++;
+    }
+    console.log('Times tried ' + count);
+    return board;
+  };
+
   flipTile(rowIndex, columnIndex) {
     if (this._playerBoard[rowIndex][columnIndex] !== ' ') {
       console.log('This tile is already flipped');
@@ -65,43 +96,20 @@ class Board {
     console.log(this._playerBoard.map(row => row.join(' | ')).join('\n'));
   };
 
-  static generatePlayerBoard(numberOfRows, numberOfColumns){
-    var board = [];
-    for (var i = 0; i < numberOfRows; i++) {
-      var row = [];
-      for (var j = 0; j < numberOfColumns;j++) {
-        row.push(' ');
-      }
-      board.push(row);
-    }
-    return board;
-  };
-
-  static generateBombBoard(numberOfRows, numberOfColumns, numberOfBombs){
-    let board = this.generatePlayerBoard(numberOfRows, numberOfColumns);
-    let numberOfBombsPlaced = 0;
-    var count = 0;//to look and see how many times it has to try again to place a bomb
-    while (numberOfBombsPlaced < numberOfBombs) {
-      var randomRowIndex  = Math.floor(Math.random()*board.length);
-      var randomColumnIndex  = Math.floor(Math.random()*board[0].length);
-      if (board[randomRowIndex][randomColumnIndex]  != 'B') {
-        numberOfBombsPlaced++;
-        board[randomRowIndex][randomColumnIndex]  = 'B';
-      }
-      count++;
-    }
-    console.log('Times tried ' + count);
-    return board;
-  };
-
   get playerBoard () {
     return this._playerBoard;
   }
 }
 
+const g = new Game(9,9,15);
 
-const g = new Game(3,3,1);
+for (var i = 0; i < g._board._playerBoard.length; i++) {
+  for (var j = 0; j < g._board._playerBoard[0].length; j++) {
+    g.playMove(i,j);
+  }
+}
 
+/*
 g.playMove(0,0);
 g.playMove(0,0);
 g.playMove(0,1);
@@ -112,3 +120,4 @@ g.playMove(1,2);
 g.playMove(2,0);
 g.playMove(2,1);
 g.playMove(2,2);
+*/
