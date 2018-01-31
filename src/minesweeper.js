@@ -8,7 +8,7 @@ class Game {
 
   playMove(rowIndex, columnIndex){
     this._board.flipTile(rowIndex, columnIndex);
-    if (this._board._playerBoard[rowIndex][columnIndex] === 'B') {
+    if (this._board.playerBoard[rowIndex][columnIndex] === 'B') {
       console.log('GAME OVER');
       this._board.print();
     } else if (this._board.hasSafeTiles()) {
