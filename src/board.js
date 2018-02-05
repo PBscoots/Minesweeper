@@ -47,6 +47,24 @@ export class Board {
     this._numberOfTiles--;
   };
 
+  placeFlag(rowIndex,columnIndex){
+    if (this._playerBoard[rowIndex][columnIndex] !== ' ') {
+      console.log('This tile is already flipped');
+      return;
+    } else  {
+      this._playerBoard[rowIndex][columnIndex] = 'F';
+    }
+  };
+
+  removeFlag(rowIndex,columnIndex){
+    if (this._playerBoard[rowIndex][columnIndex] !== 'F') {
+      console.log('This tile is already flipped');
+      return;
+    } else  {
+      this._playerBoard[rowIndex][columnIndex] = ' ';
+    }
+  };
+
   getNumberOfNeighborBombs(rowIndex, columnIndex) {
     const neighborOffsets = [[-1,1],[0,1],[1,1],[-1,0],[1,0],[-1,-1],[0,-1],[1,-1]];
     let numberOfRows = this._bombBoard.length;
