@@ -40,11 +40,22 @@ export class Board {
       return;
     } else if (this._bombBoard[rowIndex][columnIndex] === 'B') {
       this._playerBoard[rowIndex][columnIndex] = 'B';
-
     } else {
       this._playerBoard[rowIndex][columnIndex] = this.getNumberOfNeighborBombs(rowIndex, columnIndex);
     }
     this._numberOfTiles--;
+    if (this._playerBoard[rowIndex][columnIndex] === 0) {
+      const neighborOffsets = [[-1,1],[0,1],[1,1],[-1,0],[1,0],[-1,-1],[0,-1],[1,-1]];
+      let numberOfRows = this._bombBoard.length;
+      let numberOfColumns = this._bombBoard[0].length;
+      neighborOffsets.forEach(offset => {
+        const neighborRowIndex  = rowIndex + offset[0];
+        const neighborColumnIndex = columnIndex + offset[1];
+        if ((neighborRowIndex >= 0)&&(neighborRowIndex < numberOfRows)&&(neighborColumnIndex >= 0)&&(neighborColumnIndex < numberOfColumns)) {
+          this.flipTile(neighborRowIndex,neighborColumnIndex);
+        }
+      });
+    }
   };
 
   placeFlag(rowIndex,columnIndex){
